@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>report</title>
+</head>
+<body>
+    <textarea id="reportText" rows="4" cols="50"></textarea>
+    <br>
+    <button onclick="report()">report</button>
+
+    <script>
+        function report() {
+            // textarea 요소 가져오기
+            let textarea = document.getElementById("reportText");
+
+            // textarea 안의 텍스트 가져오기
+            let text = textarea.value;
+
+            // 텍스트가 비어있지 않은 경우에만 경고창을 표시하고 텍스트 삭제
+            if (text.trim() !== "") {
+                alert("report complete");
+                textarea.value = ""; // 텍스트 삭제
+            }
+        }
+    </script>
+</body>
+</html>
