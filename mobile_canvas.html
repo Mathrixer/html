@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>간단한 그림판</title>
+</head>
+<body>
+    <canvas id="drawingCanvas" width="800" height="600" style="border: 1px solid black;"></canvas>
+    <script>
+        // 캔버스와 그리기 컨텍스트 가져오기
+        const canvas = document.getElementById("drawingCanvas");
+        const context = canvas.getContext("2d");
+
+        // 그리기 변수 초기화
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // 그리기 이벤트 처리
+        canvas.addEventListener("mousedown", startDrawing);
+        canvas.addEventListener("touchstart", startDrawing);
+
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("touchmove", draw);
+
+        canvas.addEventListener("mouseup", stopDrawing);
+        canvas.addEventListener("touchend", stopDrawing);
+
+        canvas.addEventListener("mouseout", stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = getCursorPosition(e);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const [x, y] = getCursorPosition(e);
+            context.beginPath();
+            context.moveTo(lastX, lastY);
+            context.lineTo(x, y);
+            context.strokeStyle = "black";
+            context.lineWidth = 2;
+            context.lineCap = "round";
+            context.stroke();
+            [lastX, lastY] = [x, y];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function getCursorPosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            if (e.type.startsWith("touch")) {
+                return [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top];
+            } else {
+                return [e.clientX - rect.left, e.clientY - rect.top];
+            }
+        }
+    </script>
+</body>
+</html>
