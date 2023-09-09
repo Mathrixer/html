@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>간단한 그림판</title>
+</head>
+<body>
+    <canvas id="drawingCanvas" width="800" height="600" style="border: 1px solid black;"></canvas>
+    <script>
+        // 캔버스와 그리기 컨텍스트 가져오기
+        const canvas = document.getElementById("drawingCanvas")
+        const context = canvas.getContext("2d");
+        
+        // 그리기 변수 초기화
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // 그리기 이벤트 처리
+        canvas.addEventListener("mousedown", (e) => {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", () => isDrawing = false);
+        canvas.addEventListener("mouseout", () => isDrawing = false);
+
+        function draw(e) {
+            if (!isDrawing) return;
+            context.beginPath();
+            context.moveTo(lastX, lastY);
+            context.lineTo(e.offsetX, e.offsetY);
+            context.strokeStyle = "black";
+            context.lineWidth = 2;
+            context.lineCap = "round";
+            context.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+    </script>
+</body>
+</html>
