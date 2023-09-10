@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>두더지 잡기 게임</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .hole {
+    width: 100px;
+    height: 100px;
+    background-color: #0c6;
+    border-radius: 50%;
+    position: relative;
+  }
+  .mole {
+    width: 80px;
+    height: 80px;
+    background-color: #704214;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+</style>
+</head>
+<body>
+<h1>두더지 잡기 게임</h1>
+<br>
+<h4 id="score">잡은 두더지 : 0마리</h4>
+<div class="hole">
+  <div class="mole"></div>
+</div>
+<script>
+  const hole = document.querySelector('.hole');
+  const mole = document.querySelector('.mole');
+  let score = 0;
+  const scoreDisplay = document.getElementById("score");
+
+  function getRandomTime(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function peep() {
+    mole.style.display = 'block';
+    setTimeout(() => {
+      mole.style.display = 'none';
+      if (score < Infinity) {
+        setTimeout(peep, getRandomTime(1000, 2000));
+      } else {
+        alert('게임 종료! 최종 점수: ' + score);
+      }
+    }, getRandomTime(300, 1000));
+  }
+
+  function bonk() {
+    score++;
+    scoreDisplay.textContent = "잡은 두더지 : " + score + "마리";
+    this.style.display = 'none';
+  }
+
+  mole.addEventListener('click', bonk);
+  peep();
+</script>
+</body>
+</html>
