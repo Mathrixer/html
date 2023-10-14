@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>지렁이 게임</title>
+    <style>
+        #game-container {
+    width: 300px;
+    height: 300px;
+    border: 1px solid #000;
+    position: relative;
+}
+
+#snake, #food {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+}
+
+#snake {
+    background-color: green;
+}
+
+#food {
+    background-color: red;
+}
+
+#controls {
+    text-align: center;
+}
+
+#controls button {
+    font-size: 18px;
+    margin: 10px;
+    padding: 10px 20px; /* 버튼의 패딩을 늘려 터치 영역을 확대 */
+}
+
+
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="snake"></div>
+        <div id="food"></div>
+    </div>
+    <div id="controls">
+        <button id="up-button">위</button>
+        <div>
+            <button id="left-button">왼쪽</button>
+            <button id="right-button">오른쪽</button>
+        </div>
+        <button id="down-button">아래</button>
+    </div>
+    <script>
+        const gameContainer = document.getElementById("game-container");
+const snake = document.getElementById("snake");
+const food = document.getElementById("food");
+const upButton = document.getElementById("up-button");
+const leftButton = document.getElementById("left-button");
+const rightButton = document.getElementById("right-button");
+const downButton = document.getElementById("down-button");
+let snakeX = 0;
+let snakeY = 0;
+let foodX;
+let foodY;
+let direction = "right";
+
+function getRandomPosition() {
+    return Math.floor(Math.random() * 15) * 20;
+}
+
+function moveSnake() {
+    if (direction === "right") snakeX += 20;
+    if (direction === "left") snakeX -= 20;
+    if (direction === "up") snakeY -= 20;
+    if (direction === "down") snakeY += 20;
+
+    snake.style.left = snakeX + "px";
+    snake.style.top = snakeY + "px";
+
+    if (snakeX === foodX && snakeY === foodY) {
+        foodX = getRandomPosition();
+        foodY = getRandomPosition();
+        food.style.left = foodX + "px";
+        food.style.top = foodY + "px";
+    }
+}
+
+function changeDirection(newDirection) {
+    direction = newDirection;
+}
+
+upButton.addEventListener("click", () => changeDirection("up"));
+leftButton.addEventListener("click", () => changeDirection("left"));
+rightButton.addEventListener("click", () => changeDirection("right"));
+downButton.addEventListener("click", () => changeDirection("down"));
+
+foodX = getRandomPosition();
+foodY = getRandomPosition();
+food.style.left = foodX + "px";
+food.style.top = foodY + "px";
+
+setInterval(moveSnake, 200);
+
+    </script>
+</body>
+</html>
